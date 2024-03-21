@@ -41,6 +41,11 @@ def update_post(request,pk):
     else:
         form=PostForm(instance=post)
     return render(request,'posts/update_post.html',{'form':form})
+
+def delete(request,pk):
+    post=Post.objects.get(id=pk)
+    post.delete()
+    return redirect('/posts/')
     
 
 
