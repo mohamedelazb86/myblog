@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Post
+from .forms import PostForm
 
 def post_list(request):
     posts=Post.objects.all()
@@ -15,6 +16,19 @@ def post_detail(request,pk):
     context={
         'post':post
     }
-    return render(request,'posts/post_detail.hml',context)
+    return render(request,'posts/post_detail.html',context)
+
+def create_post(request):
+    if request.method == 'POST':
+        form=PostForm(request.POST,request.FILES)
+        if form.is_valid():
+            myform=form.save(commit=False)
+            myform.author=request.user
+            form.save()
+            return redirect('/posts/')
+    else:
+        form=PostForm()
+    return render(request,'posts/create_post.html',{'form':form})
+    
 
 
