@@ -46,6 +46,8 @@ def delete(request,pk):
     post=Post.objects.get(id=pk)
     post.delete()
     return redirect('/posts/')
+
+
     
 
 
